@@ -5,6 +5,8 @@ const bodyColor = document.querySelector('body');
 btnStart.addEventListener('click', onStartBtnTimerColor);
 btnStop.addEventListener('click', onStopBtnTimerColor);
 
+btnStop.setAttribute('disabled', true);
+
 let isAcrive = false;
 let timerId = null;
 
@@ -15,14 +17,18 @@ function onStartBtnTimerColor(e) {
 
   isAcrive = true;
   bodyColor.style.backgroundColor = getRandomHexColor();
-
+  btnStart.setAttribute('disabled', true);
+  btnStop.removeAttribute('disabled', true);
   timerId = setInterval(() => {
     bodyColor.style.backgroundColor = getRandomHexColor();
+    btnStart.setAttribute('disabled', true);
   }, 1000);
 }
 
 function onStopBtnTimerColor(e) {
   isAcrive = false;
+  btnStart.removeAttribute('disabled', true);
+  btnStop.setAttribute('disabled', true);
   clearInterval(timerId);
 }
 

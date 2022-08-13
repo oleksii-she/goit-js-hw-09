@@ -4,7 +4,6 @@ import Notiflix from 'notiflix';
 
 const refs = {
   dateTimePicker: document.querySelector('input#datetime-picker'),
-  value: document.querySelector('.value'),
   btnStart: document.querySelector('[data-start]'),
 
   dataDays: document.querySelector('[data-days]'),
@@ -14,13 +13,8 @@ const refs = {
 };
 
 refs.btnStart.setAttribute('disabled', true);
-refs.btnStart.addEventListener('click', () => {
-  setInterval(() => {
-    textValueTime(convertMs(timerId - Date.now()));
-  }, 1000);
-});
 
-let timerId = null;
+let timeValue = null;
 
 const options = {
   enableTime: true,
@@ -28,16 +22,15 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    const curretTime = Date.now();
-    const pastTime = selectedDates[0].getTime() - curretTime;
+    const currentTime = Date.now();
+    const pastTime = selectedDates[0].getTime() - currentTime;
     if (pastTime < 0) {
       refs.btnStart.setAttribute('disabled', true);
       Notiflix.Notify.failure('Please choose a date in the future');
     } else {
-      timerId = selectedDates[0].getTime();
-      console.log(timerId);
+      timeValue = selectedDates[0].getTime();
+
       refs.btnStart.removeAttribute('disabled', true);
-      console.log(curretTime);
     }
   },
 };
@@ -77,3 +70,13 @@ function convertMs(ms) {
 convertMs(2000); // {days: 0, hours: 0, minutes: 0, seconds: 2}
 convertMs(140000); // {days: 0, hours: 0, minutes: 2, seconds: 20}
 convertMs(24140000); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+
+refs.btnStart.addEventListener('click', () => {
+  const timerId = setInterval(() => {
+    textValueTime(convertMs(timeValue - Date.now()));
+  }, 1000);
+
+  setTimeout(() => {
+    clearInterval(timerId);
+  }, timeValue - Date.now());
+});
