@@ -5,12 +5,12 @@ const form = document.querySelector('.form');
 function onFormSubmit(e) {
   e.preventDefault();
 
-  let delay = Number(e.target.elements.delay.value);
-  const step = Number(e.target.elements.step.value);
-  const amounts = Number(e.target.elements.amount.value);
+  let delay = e.target.elements.delay.value;
+  const step = e.target.elements.step.value;
+  const amount = e.target.elements.amount.value;
 
-  for (const amount of amounts) {
-    createPromise(amount, delay)
+  for (let i = 0; i < amount; i++) {
+    createPromise(i, delay)
       .then(({ position, delay }) => {
         Notiflix.Notify.success(` Fulfilled promise ${position} in ${delay}ms`);
       })
