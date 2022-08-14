@@ -9,7 +9,7 @@ function onFormSubmit(e) {
   const step = Number(e.target.elements.step.value);
   const amount = Number(e.target.elements.amount.value);
 
-  for (let i = 1; i < amount; i++) {
+  for (let i = 0; i < amount; i++) {
     createPromise(i, delay)
       .then(({ position, delay }) => {
         Notiflix.Notify.success(` Fulfilled promise ${position} in ${delay}ms`);
@@ -17,7 +17,7 @@ function onFormSubmit(e) {
       .catch(({ position, delay }) => {
         Notiflix.Notify.failure(` Rejected promise ${position} in ${delay}ms`);
       });
-    delay += step;
+    delay = step;
   }
 }
 
