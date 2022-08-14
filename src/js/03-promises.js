@@ -5,9 +5,9 @@ const form = document.querySelector('.form');
 function onFormSubmit(e) {
   e.preventDefault();
 
-  let delay = e.target.elements.delay.value;
-  const step = e.target.elements.step.value;
-  const amount = e.target.elements.amount.value;
+  let delay = Number(e.target.elements.delay.value);
+  let step = Number(e.target.elements.step.value);
+  let amount = Number(e.target.elements.amount.value);
 
   for (let i = 0; i < amount; i++) {
     createPromise(i, delay)
@@ -17,7 +17,7 @@ function onFormSubmit(e) {
       .catch(({ position, delay }) => {
         Notiflix.Notify.failure(` Rejected promise ${position} in ${delay}ms`);
       });
-    delay = step;
+    delay += step;
   }
 }
 
